@@ -15,16 +15,18 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties({ "handler", "hibernateLazyInitializer" })
 public class RoleEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "role_id")
 	private Integer id;
 	@Column(name = "role_name")
-@Enumerated(EnumType.STRING)
-	private Role RoleName;
+	@Enumerated(EnumType.STRING)
+	private Role name;
 	@JsonIgnore
 	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
 	private List<Employee> employee = new ArrayList<>();
@@ -35,7 +37,7 @@ public class RoleEntity {
 
 	public RoleEntity(Role roleName, List<Employee> employee) {
 		super();
-		RoleName = roleName;
+		name = roleName;
 		this.employee = employee;
 	}
 
@@ -44,11 +46,11 @@ public class RoleEntity {
 	}
 
 	public Role getRoleName() {
-		return RoleName;
+		return name;
 	}
 
 	public void setRoleName(Role roleName) {
-		RoleName = roleName;
+		name = roleName;
 	}
 
 	public List<Employee> getEmployee() {

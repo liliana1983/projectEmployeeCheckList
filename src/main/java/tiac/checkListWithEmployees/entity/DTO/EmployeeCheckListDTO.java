@@ -2,7 +2,6 @@ package tiac.checkListWithEmployees.entity.DTO;
 
 import tiac.checkListWithEmployees.entity.CheckListTemplate;
 import tiac.checkListWithEmployees.entity.Employee;
-import tiac.checkListWithEmployees.entity.TimeFrame;
 
 public class EmployeeCheckListDTO {
 	
@@ -16,9 +15,6 @@ private boolean isChecked;
 	
 	
 	private CheckListTemplate checkListTemplate;
-	
-	
-	private TimeFrame timeDropdown;
 
 
 	public EmployeeCheckListDTO() {
@@ -28,13 +24,12 @@ private boolean isChecked;
 
 
 	public EmployeeCheckListDTO(boolean isChecked, String description, Employee employee,
-			CheckListTemplate checkListTemplate, TimeFrame timeDropdown) {
+			CheckListTemplate checkListTemplate) {
 		super();
 		this.isChecked = isChecked;
 		this.description = description;
 		this.employee = employee;
 		this.checkListTemplate = checkListTemplate;
-		this.timeDropdown = timeDropdown;
 	}
 
 
@@ -76,15 +71,6 @@ private boolean isChecked;
 	public void setCheckListTemplate(CheckListTemplate checkListTemplate) {
 		this.checkListTemplate = checkListTemplate;
 	}
-
-
-	public TimeFrame getTimeDropdown() {
-		return timeDropdown;
-	}
-
-
-	public void setTimeDropdown(TimeFrame timeDropdown) {
-		this.timeDropdown = timeDropdown;
-	}
+	
 	
 }

@@ -5,9 +5,10 @@ import java.util.Set;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import tiac.checkListWithEmployees.Util.UniqueUsername;
 import tiac.checkListWithEmployees.entity.EmployeeCheckList;
@@ -18,6 +19,8 @@ public class EmployeeDTO {
 	@NotBlank(message = "Name must not be blank or null")
 	@Size(min = 2, max = 30, message = "Last name length must be between {min} and {max}")
 	private String name;
+
+	private String user;
 
 	private String token;
 
@@ -39,24 +42,25 @@ public class EmployeeDTO {
 	@NotEmpty(message = "Username must not be blank or null and should be unique")
 	@Size(min = 5, max = 15, message = "Username length must be between {min} and {max}")
 	private String username;
+//view private
 
+@JsonIgnore
 	@NotBlank(message = "Password must not be blank or null")
 	@Size(min = 5, max = 15, message = "Password length must be between {min} and {max}")
 	@Pattern(regexp = "[a-zA-Z0-9]*", message = "Password is not valid.")
 	private String password;
-
+//view private
+	
 	@NotBlank(message = "Password must not be blank or null")
 	@Size(min = 5, max = 15, message = "Password length must be between {min} and {max}")
 	@Pattern(regexp = "[a-zA-Z0-9]*", message = "Password is not valid.")
 	private String confirmPassword;
-	
+
 	@NotBlank
 	private String educationLevel;
-	
-	@NotNull
+
 	private RoleEntity role;
-	
-	@NotNull
+
 	private Set<EmployeeCheckList> employeeCheckLists;
 
 	public EmployeeDTO() {

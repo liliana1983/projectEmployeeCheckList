@@ -23,6 +23,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({ "handler", "hibernateLazyInitializer" })
 public class Employee {
 
+	public RoleEntity getRole() {
+		return role;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;

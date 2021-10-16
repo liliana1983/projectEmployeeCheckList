@@ -1,6 +1,7 @@
 package tiac.checkListWithEmployees.entity;
 
 import javax.persistence.Entity;
+
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,7 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@SQLDelete(sql = "UPDATE check_list_item_template SET active = false WHERE id=?")
+@Where(clause = "active=true")
 @Entity
+@JsonIgnoreProperties({ "handler", "hibernateLazyInitializer" })
 public class CheckListItemTemplate {
 
 	@Id
@@ -17,7 +26,7 @@ public class CheckListItemTemplate {
 	
 	private String description;
 	
-	private boolean active;
+	private boolean active = Boolean.TRUE;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "check_list_id")

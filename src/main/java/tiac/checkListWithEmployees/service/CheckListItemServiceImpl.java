@@ -9,4 +9,5 @@ import tiac.checkListWithEmployees.repository.CheckListItemRepository;
 public class CheckListItemServiceImpl implements CheckListItemService {
 @Autowired
 CheckListItemRepository itemRepo; 
+
 }

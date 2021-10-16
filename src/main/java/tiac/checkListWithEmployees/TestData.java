@@ -7,10 +7,11 @@ import org.springframework.stereotype.Component;
 
 import tiac.checkListWithEmployees.service.EmployeeService;
 
-@Component
+//@Component
 public class TestData {
-@Autowired
-EmployeeService employeeService;
+	/*
+	 * @Autowired EmployeeService employeeService;
+	 */
 	
 	@PostConstruct
 	public void init(){}

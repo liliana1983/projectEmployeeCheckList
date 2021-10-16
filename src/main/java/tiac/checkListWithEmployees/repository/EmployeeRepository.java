@@ -8,7 +8,7 @@ import tiac.checkListWithEmployees.entity.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long>{
 
-	Object findByUsername(String username);
+	Employee findByUsername(String username);
 
 	
 	
