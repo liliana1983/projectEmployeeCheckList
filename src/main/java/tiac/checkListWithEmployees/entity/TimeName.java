@@ -1,5 +1,5 @@
 package tiac.checkListWithEmployees.entity;
 
 public enum TimeName {
-daily, weekly, monthly
+daily, weekly, monthly, yearly
 }

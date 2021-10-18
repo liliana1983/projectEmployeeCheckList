@@ -3,6 +3,8 @@ package tiac.checkListWithEmployees.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import tiac.checkListWithEmployees.Util.Encryption;
@@ -78,5 +80,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 			return delEmp;
 		}
 		return null;
+	}
+
+	@Override
+	public Employee LoggedInEmployee() {
+		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		String username = auth.getPrincipal().toString();
+		Employee employee= employeeRepo.findByUsername(username);
+		return employee;
 	}
 }

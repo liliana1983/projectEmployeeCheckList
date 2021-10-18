@@ -16,5 +16,7 @@ public interface EmployeeService {
 	Employee changeEmployee(Long id, EmployeeDTO changedEmployee);
 	
 	Employee deleteEmployee(Long id);
+	
+	Employee LoggedInEmployee();
 
 }

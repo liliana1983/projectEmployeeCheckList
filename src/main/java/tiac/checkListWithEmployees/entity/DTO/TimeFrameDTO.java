@@ -3,9 +3,10 @@ package tiac.checkListWithEmployees.entity.DTO;
 import java.util.Set;
 
 import tiac.checkListWithEmployees.entity.CheckListItemTemplate;
+import tiac.checkListWithEmployees.entity.TimeName;
 
 public class TimeFrameDTO {
-	private String name;
+	private TimeName name;
 
 	private Set<CheckListItemTemplate> items;
 
@@ -14,11 +15,17 @@ public class TimeFrameDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getName() {
+	public TimeFrameDTO(TimeName name, Set<CheckListItemTemplate> items) {
+		super();
+		this.name = name;
+		this.items = items;
+	}
+
+	public TimeName getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(TimeName name) {
 		this.name = name;
 	}
 
@@ -30,9 +37,5 @@ public class TimeFrameDTO {
 		this.items = items;
 	}
 
-	public TimeFrameDTO(String name, Set<CheckListItemTemplate> items) {
-		super();
-		this.name = name;
-		this.items = items;
-	}
+	
 }

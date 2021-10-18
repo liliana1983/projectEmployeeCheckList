@@ -41,42 +41,53 @@ public class CheckListItemTemplate {
 
 	}
 
-	public CheckListTemplate getCheckList() {
-		return checkList;
-	}
 
-	public void setCheckList(CheckListTemplate checkList) {
+	public CheckListItemTemplate(String description, boolean active, CheckListTemplate checkList,
+			TimeFrame timeDropdown) {
+		super();
+		this.description = description;
+		this.active = active;
 		this.checkList = checkList;
-	}
-
-	public TimeFrame getTimeDropdown() {
-		return timeDropdown;
-	}
-
-	public void setTimeDropdown(TimeFrame timeDropdown) {
 		this.timeDropdown = timeDropdown;
 	}
 
-	public Long getId() {
-		return id;
-	}
 
 	public String getDescription() {
 		return description;
 	}
 
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 
 	public boolean isActive() {
 		return active;
 	}
 
+
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
-	
-	
+
+
+	public CheckListTemplate getCheckList() {
+		return checkList;
+	}
+
+
+	public void setCheckList(CheckListTemplate checkList) {
+		this.checkList = checkList;
+	}
+
+
+	public TimeFrame getTimeDropdown() {
+		return timeDropdown;
+	}
+
+
+	public void setTimeDropdown(TimeFrame timeDropdown) {
+		this.timeDropdown = timeDropdown;
+	}
 }

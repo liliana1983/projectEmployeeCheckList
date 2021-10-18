@@ -27,7 +27,7 @@ public class CheckListTemplate {
 	
 	@Column
 	private String description;
-	
+	@JsonIgnore
 	@OneToMany(mappedBy = "checkList", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	private Set<CheckListItemTemplate> items;
 

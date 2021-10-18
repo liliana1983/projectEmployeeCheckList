@@ -5,6 +5,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +25,7 @@ public class TimeFrame {
 	private Long id;
 
 	@Column
+	@Enumerated(EnumType.STRING)
 	private TimeName name;
 
 	@OneToMany(mappedBy = "timeDropdown", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)

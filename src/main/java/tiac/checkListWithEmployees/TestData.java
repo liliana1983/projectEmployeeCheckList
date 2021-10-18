@@ -14,5 +14,7 @@ public class TestData {
 	 */
 	
 	@PostConstruct
-	public void init(){}
+	public void init(){
+		
+	}
 }

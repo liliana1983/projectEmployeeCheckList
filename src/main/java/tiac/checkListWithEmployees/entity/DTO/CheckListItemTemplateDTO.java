@@ -7,7 +7,7 @@ public class CheckListItemTemplateDTO {
 
 	private String description;
 
-	private boolean active;
+	private boolean active=Boolean.TRUE;
 
 	private CheckListTemplate checkList;
 
