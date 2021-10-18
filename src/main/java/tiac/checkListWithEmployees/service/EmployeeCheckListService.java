@@ -11,13 +11,24 @@ public interface EmployeeCheckListService {
 
 	public EmployeeCheckList deleteEmployeeCheckList(Long id);
 
-	public EmployeeCheckList createEmployeeCheckList(EmployeeCheckListDTO newEmployeeCheckList);
+	public List<EmployeeCheckList> createEmployeeCheckList(Long checkId, Long employeeId);
 
 	public EmployeeCheckList changeEmployeeCheckList(Long id, EmployeeCheckListDTO changedEmployeeCheckList);
 
 	public EmployeeCheckList findEmployeeCheckList(Long id);
 
-	public EmployeeCheckList connectEmployeeAndCheckListWithEmployeeCheckList(Long checkId, Long employeeId,
-			Long employeeCheckListId);
+	public EmployeeCheckList connectEmployeeAndCheckListWithEmployeeCheckList(EmployeeCheckListDTO newEmployeeCheckList, Long checkId, Long employeeId);
+	
+	public EmployeeCheckList setIfIsChecked(Long employeeCheckId,  Boolean checked);
+	
+	public List<EmployeeCheckList> getAllChecked();
+	
+	public List<EmployeeCheckList> getAllNotChecked();
+	
+	public List<EmployeeCheckList> findByEmployee(Long employeeId);
+	
+	public boolean checkAllFields();
+	
+	//public boolean containsIsCheckedTrue();
 
 }

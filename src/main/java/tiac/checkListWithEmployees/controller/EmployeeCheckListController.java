@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import tiac.checkListWithEmployees.entity.CheckListItemTemplate;
 import tiac.checkListWithEmployees.entity.EmployeeCheckList;
-import tiac.checkListWithEmployees.entity.DTO.CheckListItemTemplateDTO;
 import tiac.checkListWithEmployees.entity.DTO.EmployeeCheckListDTO;
 import tiac.checkListWithEmployees.exception.ResourceNotFoundException;
 import tiac.checkListWithEmployees.service.EmployeeCheckListService;
@@ -36,10 +34,10 @@ public class EmployeeCheckListController {
 
 	@Secured("ROLE_ADMIN")
 	@PostMapping
-	public ResponseEntity<?> createEmployeeCheckList(@RequestBody EmployeeCheckListDTO newEmployeeCheckList) {
-		EmployeeCheckList newEmployeeCheck = employeeCheckService.createEmployeeCheckList(newEmployeeCheckList);
-		EmployeeCheckListDTO newEmployeeCheckResponse = modelMapper.map(newEmployeeCheck, EmployeeCheckListDTO.class);
-		return new ResponseEntity<EmployeeCheckListDTO>(newEmployeeCheckResponse, HttpStatus.OK);
+	public ResponseEntity<?> createEmployeeCheckList(@RequestParam Long checkId, @RequestParam Long employeeId) {
+		List<EmployeeCheckList> newEmployeeCheck = employeeCheckService.createEmployeeCheckList(checkId,employeeId);
+		//List<EmployeeCheckListDTO> newEmployeeCheckResponse = (List<EmployeeCheckListDTO>) modelMapper.map(newEmployeeCheck, EmployeeCheckListDTO.class);
+		return new ResponseEntity<List<EmployeeCheckList>>(newEmployeeCheck, HttpStatus.OK);
 	}
 
 	@Secured("ROLE_ADMIN")
@@ -84,17 +82,17 @@ public class EmployeeCheckListController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@Secured("ROLE_ADMIN")
-	@PutMapping(path = "/withEmployeeAndCheckList")
-	public ResponseEntity<?> connectEmployeeCheckWithEmployeeAndCheckList(@RequestParam Long employeeCheckId,
-			@RequestParam Long employeeId, @RequestParam Long checkId) {
-		if (employeeCheckService.connectEmployeeAndCheckListWithEmployeeCheckList(checkId, employeeId, employeeCheckId)
-				.equals(null))
-			throw new ResourceNotFoundException("One of the parameters do not exist or are missplaced");
-		employeeCheckService.connectEmployeeAndCheckListWithEmployeeCheckList(checkId, employeeId, employeeCheckId);
-		EmployeeCheckList employeeCheckList = employeeCheckService.findEmployeeCheckList(employeeId);
-		EmployeeCheckListDTO employeeCheckResponse = modelMapper.map(employeeCheckList, EmployeeCheckListDTO.class);
-		return new ResponseEntity<EmployeeCheckListDTO>(employeeCheckResponse, HttpStatus.OK);
-
-	}
+//	@Secured({ "ROLE_ADMIN", "ROLE_CEO" })
+//	@PutMapping(path = "/withEmployeeAndCheckList")
+//	public ResponseEntity<?> connectEmployeeCheckWithEmployeeAndCheckList(@RequestParam Long employeeCheckId,
+//			@RequestParam Long employeeId, @RequestParam Long checkId) {
+//		if (employeeCheckService.connectEmployeeAndCheckListWithEmployeeCheckList(checkId, employeeId, employeeCheckId)
+//				.equals(null))
+//			throw new ResourceNotFoundException("One of the parameters do not exist or are missplaced");
+//		employeeCheckService.connectEmployeeAndCheckListWithEmployeeCheckList(checkId, employeeId, employeeCheckId);
+//		EmployeeCheckList employeeCheckList = employeeCheckService.findEmployeeCheckList(employeeId);
+//		EmployeeCheckListDTO employeeCheckResponse = modelMapper.map(employeeCheckList, EmployeeCheckListDTO.class);
+//		return new ResponseEntity<EmployeeCheckListDTO>(employeeCheckResponse, HttpStatus.OK);
+//
+//	}
 }

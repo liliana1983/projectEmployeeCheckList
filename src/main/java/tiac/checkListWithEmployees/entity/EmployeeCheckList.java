@@ -1,7 +1,9 @@
 package tiac.checkListWithEmployees.entity;
-
+import tiac.checkListWithEmployees.entity.TimeFrame;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +24,9 @@ public class EmployeeCheckList {
 	@Column(name = "is_checked")
 	private boolean isChecked;
 	
+	@Column(name="time_dropdown")
+	private String timeDropDown;
+	
 	@Column
 	private String description;
 
@@ -38,14 +43,10 @@ public class EmployeeCheckList {
 		// TODO Auto-generated constructor stub
 	}
 
-	public EmployeeCheckList(boolean isChecked, String description, Employee employee,
-			CheckListTemplate checkListTemplate) {
-		super();
-		this.isChecked = isChecked;
-		this.description = description;
-		this.employee = employee;
-		this.checkListTemplate = checkListTemplate;
+	public Long getId() {
+		return id;
 	}
+
 
 	public boolean isChecked() {
 		return isChecked;
@@ -53,6 +54,14 @@ public class EmployeeCheckList {
 
 	public void setChecked(boolean isChecked) {
 		this.isChecked = isChecked;
+	}
+
+	public String getTimeDropDown() {
+		return timeDropDown;
+	}
+
+	public void setTimeDropDown(String timeDropDown) {
+		this.timeDropDown = timeDropDown;
 	}
 
 	public String getDescription() {
@@ -79,11 +88,14 @@ public class EmployeeCheckList {
 		this.checkListTemplate = checkListTemplate;
 	}
 
-	public Long getId() {
-		return id;
+	public EmployeeCheckList(boolean isChecked, String timeDropDown, String description, Employee employee,
+			CheckListTemplate checkListTemplate) {
+		super();
+		this.isChecked = isChecked;
+		this.timeDropDown = timeDropDown;
+		this.description = description;
+		this.employee = employee;
+		this.checkListTemplate = checkListTemplate;
 	}
 
 }
-	
-
-	

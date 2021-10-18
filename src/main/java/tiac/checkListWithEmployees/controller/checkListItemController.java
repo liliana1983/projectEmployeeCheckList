@@ -86,7 +86,7 @@ public class checkListItemController {
 	@PutMapping(path = "/timeCheckList")
 	public ResponseEntity<?> addTimeAndCheckList(@RequestParam Long timeId, @RequestParam Long checkId,
 			@RequestParam Long itemId) {
-		if (itemService.addCheckListAndTime(timeId, checkId, itemId).equals(null)) {
+		if (itemService.addCheckListAndTime(checkId, itemId, timeId).equals(null)) {
 			throw new ResourceNotFoundException("Item, checkList or time frame not found!");
 		}
 		itemService.addCheckListAndTime(checkId, itemId, timeId);

@@ -69,7 +69,7 @@ public class CheckListItemServiceImpl implements CheckListItemService {
 
 	@Override
 	public CheckListItemTemplate addCheckListAndTime(Long checkId, Long itemId, Long timeId) {
-		if (!itemRepo.existsById(itemId))
+		if (!itemRepo.existsById(itemId)) 
 			return null;
 		if (!checkRepo.existsById(checkId))
 			return null;
@@ -81,7 +81,7 @@ public class CheckListItemServiceImpl implements CheckListItemService {
 		item.setCheckList(checkList);
 		item.setTimeDropdown(time);
 		
-		checkRepo.save(checkList);
+	//	checkRepo.save(checkList);
 		return itemRepo.save(item);
 
 	}
