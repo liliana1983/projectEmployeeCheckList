@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tiac.checkListWithEmployees.entity.CheckListTemplate;
@@ -31,7 +30,7 @@ public class CheckListController {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Secured("ROLE_ADMIN")
 	@PostMapping
 	public ResponseEntity<?> createCheckList(@RequestBody CheckListTemplateDTO newCheckList) {
@@ -40,7 +39,7 @@ public class CheckListController {
 		return new ResponseEntity<CheckListTemplateDTO>(newCheckResponse, HttpStatus.OK);
 
 	}
-	
+
 	@Secured("ROLE_ADMIN")
 	@GetMapping
 	public ResponseEntity<List<CheckListTemplateDTO>> getAllCheckList() {
@@ -48,6 +47,7 @@ public class CheckListController {
 				.map(check -> modelMapper.map(check, CheckListTemplateDTO.class)).collect(Collectors.toList());
 		return new ResponseEntity<List<CheckListTemplateDTO>>(checkList, HttpStatus.OK);
 	}
+
 	@Secured("ROLE_ADMIN")
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> getOneCheckList(@PathVariable Long id) {
@@ -58,10 +58,11 @@ public class CheckListController {
 		CheckListTemplateDTO checkResponse = modelMapper.map(checkList, CheckListTemplateDTO.class);
 		return new ResponseEntity<CheckListTemplateDTO>(checkResponse, HttpStatus.OK);
 	}
+
 	@Secured("ROLE_ADMIN")
 	@PutMapping(path = "/{id}")
 	public ResponseEntity<?> updateCheckListItem(@PathVariable Long id,
-			@RequestParam CheckListTemplateDTO changedCheckList) {
+			@RequestBody CheckListTemplateDTO changedCheckList) {
 		if (checkService.findCheckList(id).equals(null)) {
 			throw new ResourceNotFoundException("Check list doesnt exists!");
 		}
@@ -69,12 +70,14 @@ public class CheckListController {
 		CheckListTemplateDTO checkResponse = modelMapper.map(checkList, CheckListTemplateDTO.class);
 		return new ResponseEntity<CheckListTemplateDTO>(checkResponse, HttpStatus.OK);
 	}
+
 	@Secured("ROLE_ADMIN")
-	@DeleteMapping(path="/{id}")
-	public ResponseEntity<?> delCheckList(@PathVariable Long id){
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<?> delCheckList(@PathVariable Long id) {
 		if (checkService.removeCheckList(id).equals(null)) {
 			throw new ResourceNotFoundException("Item doesnt exists or is already deleted!");
-		}checkService.removeCheckList(id);
+		}
+		checkService.removeCheckList(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

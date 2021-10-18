@@ -83,12 +83,12 @@ public class checkListItemController {
 	}
 
 	@Secured("ROLE_ADMIN")
-	@PutMapping(path ="/timeCheckList")
+	@PutMapping(path = "/timeCheckList")
 	public ResponseEntity<?> addTimeAndCheckList(@RequestParam Long timeId, @RequestParam Long checkId,
 			@RequestParam Long itemId) {
-//		if (itemService.addCheckListAndTime(timeId, checkId, itemId).equals(null)) {
-//			throw new ResourceNotFoundException("Item, checkList or time frame not found!");
-		//}
+		if (itemService.addCheckListAndTime(timeId, checkId, itemId).equals(null)) {
+			throw new ResourceNotFoundException("Item, checkList or time frame not found!");
+		}
 		itemService.addCheckListAndTime(checkId, itemId, timeId);
 		CheckListItemTemplate item = itemService.findItem(itemId);
 		CheckListItemTemplateDTO itemResponse = modelMapper.map(item, CheckListItemTemplateDTO.class);

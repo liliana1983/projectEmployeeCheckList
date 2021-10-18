@@ -8,16 +8,16 @@ import tiac.checkListWithEmployees.entity.DTO.EmployeeCheckListDTO;
 public interface EmployeeCheckListService {
 
 	public List<EmployeeCheckList> getAllEmployeeCheckLists();
-	
+
 	public EmployeeCheckList deleteEmployeeCheckList(Long id);
-	
+
 	public EmployeeCheckList createEmployeeCheckList(EmployeeCheckListDTO newEmployeeCheckList);
-	
-	public EmployeeCheckList changeEmployeeCheckList(Long id,EmployeeCheckListDTO changedEmployeeCheckList);
-	
+
+	public EmployeeCheckList changeEmployeeCheckList(Long id, EmployeeCheckListDTO changedEmployeeCheckList);
+
 	public EmployeeCheckList findEmployeeCheckList(Long id);
-	
-	public EmployeeCheckList connectEmployeeAndCheckList(Long checkId, Long employeeId);
-	
-	
+
+	public EmployeeCheckList connectEmployeeAndCheckListWithEmployeeCheckList(Long checkId, Long employeeId,
+			Long employeeCheckListId);
+
 }
