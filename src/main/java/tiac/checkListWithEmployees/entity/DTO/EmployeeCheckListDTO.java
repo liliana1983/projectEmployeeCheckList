@@ -1,10 +1,12 @@
 package tiac.checkListWithEmployees.entity.DTO;
 
+import javax.validation.constraints.AssertFalse;
+
 import tiac.checkListWithEmployees.entity.CheckListTemplate;
 import tiac.checkListWithEmployees.entity.Employee;
 
 public class EmployeeCheckListDTO {
-	
+	@AssertFalse
 private boolean isChecked;
 	
 	

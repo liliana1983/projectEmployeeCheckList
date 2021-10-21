@@ -1,5 +1,7 @@
 package tiac.checkListWithEmployees.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,10 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import net.sf.jasperreports.engine.JRException;
+import tiac.checkListWithEmployees.entity.CheckListTemplate;
+import tiac.checkListWithEmployees.entity.Employee;
 import tiac.checkListWithEmployees.entity.EmployeeCheckList;
 import tiac.checkListWithEmployees.entity.DTO.EmployeeCheckListDTO;
 import tiac.checkListWithEmployees.exception.ResourceNotFoundException;
 import tiac.checkListWithEmployees.service.EmployeeCheckListService;
+import tiac.checkListWithEmployees.service.JasperReportService;
 
 @RestController
 @RequestMapping(path = "/employeeCheckList")
@@ -31,12 +38,17 @@ public class EmployeeCheckListController {
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@Autowired
+	JasperReportService jasperReport;
 
 	@Secured("ROLE_ADMIN")
 	@PostMapping
 	public ResponseEntity<?> createEmployeeCheckList(@RequestParam Long checkId, @RequestParam Long employeeId) {
-		List<EmployeeCheckList> newEmployeeCheck = employeeCheckService.createEmployeeCheckList(checkId,employeeId);
-		//List<EmployeeCheckListDTO> newEmployeeCheckResponse = (List<EmployeeCheckListDTO>) modelMapper.map(newEmployeeCheck, EmployeeCheckListDTO.class);
+		List<EmployeeCheckList> newEmployeeCheck = employeeCheckService.createEmployeeCheckList(checkId, employeeId);
+		// List<EmployeeCheckListDTO> newEmployeeCheckResponse =
+		// (List<EmployeeCheckListDTO>) modelMapper.map(newEmployeeCheck,
+		// EmployeeCheckListDTO.class);
 		return new ResponseEntity<List<EmployeeCheckList>>(newEmployeeCheck, HttpStatus.OK);
 	}
 
@@ -82,17 +94,57 @@ public class EmployeeCheckListController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-//	@Secured({ "ROLE_ADMIN", "ROLE_CEO" })
-//	@PutMapping(path = "/withEmployeeAndCheckList")
-//	public ResponseEntity<?> connectEmployeeCheckWithEmployeeAndCheckList(@RequestParam Long employeeCheckId,
-//			@RequestParam Long employeeId, @RequestParam Long checkId) {
-//		if (employeeCheckService.connectEmployeeAndCheckListWithEmployeeCheckList(checkId, employeeId, employeeCheckId)
-//				.equals(null))
-//			throw new ResourceNotFoundException("One of the parameters do not exist or are missplaced");
-//		employeeCheckService.connectEmployeeAndCheckListWithEmployeeCheckList(checkId, employeeId, employeeCheckId);
-//		EmployeeCheckList employeeCheckList = employeeCheckService.findEmployeeCheckList(employeeId);
-//		EmployeeCheckListDTO employeeCheckResponse = modelMapper.map(employeeCheckList, EmployeeCheckListDTO.class);
-//		return new ResponseEntity<EmployeeCheckListDTO>(employeeCheckResponse, HttpStatus.OK);
-//
-//	}
+	@Secured("ROLE_ADMIN")
+	@GetMapping(path = "/UnChecked")
+	public ResponseEntity<?> getAllNotFullyCheckedLists() {
+		List<CheckListTemplate> listUnchecked = employeeCheckService.getAllNotChecked();
+		return new ResponseEntity<>(listUnchecked, HttpStatus.OK);
+	}
+
+	@Secured({ "ROLE_ADMIN", "ROLE_EMPLOYEE" })
+	@PatchMapping(path = "/checkings")
+	public ResponseEntity<?> checkIsChecked(@RequestParam Long employeeCheckId) {
+		EmployeeCheckList lista = employeeCheckService.setIfIsChecked(employeeCheckId);
+
+		return new ResponseEntity<>(lista, HttpStatus.OK);
+	}
+@Secured({"ROLE_ADMIN","ROLE_EMPLOYEE","ROLE_CEO"})
+@GetMapping(path="/UncheckedItems")
+
+public ResponseEntity<?> seeUncheckedItems(){
+	List<String> uncheckedItems =employeeCheckService.findUncheckedItemNames();
+	return new ResponseEntity<>(uncheckedItems,HttpStatus.OK);
+	
+}
+@Secured({"ROLE_ADMIN","ROLE_EMPLOYEE","ROLE_CEO"})
+@GetMapping(path="/checkedItems")
+
+public ResponseEntity<?> seeCheckedItems(){
+	List<String> checkedItems =employeeCheckService.findCheckedItemNames();
+	return new ResponseEntity<>(checkedItems,HttpStatus.OK);
+	
+}
+@Secured({"ROLE_ADMIN","ROLE_CEO"})
+@GetMapping(path="/employees")
+
+public ResponseEntity<?> seeEmployeesWithUncheckedLists(){
+	List<Employee> employees =employeeCheckService.employeesWhoDidntCheckAll();
+	return new ResponseEntity<>(employees,HttpStatus.OK);
+	
+}
+@Secured({"ROLE_ADMIN","ROLE_EMPLOYEE"})
+@GetMapping(path = "/personalCheckLists")
+public ResponseEntity<?> getReports(@RequestParam String username) {
+	
+	List<EmployeeCheckList> myList = employeeCheckService.assignedCheckListsToEmployee(username);
+	return new ResponseEntity<>(myList,HttpStatus.OK);
+}
+@Secured({"ROLE_ADMIN","ROLE_EMPLOYEE"})
+@GetMapping(path = "/checklist")
+public ResponseEntity<?> getReportsPdf(@RequestParam Long id) throws FileNotFoundException, JRException, IOException {
+	
+	String report = jasperReport.exportReport(id);
+	System.out.println(report);
+	return new ResponseEntity<>(report,HttpStatus.OK);
+}
 }

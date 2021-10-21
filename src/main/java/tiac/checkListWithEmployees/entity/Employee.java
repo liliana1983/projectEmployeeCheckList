@@ -31,13 +31,14 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column
+
+	 @Column(columnDefinition = "varchar(256) default 'John'")
 	private String name;
 
-	@Column
+	 @Column(columnDefinition = "varchar(256) default 'Snow'")
 	private String surname;
 
-	@Column(name = "soc_sec_number")
+	@Column(name = "soc_sec_number", columnDefinition= "varchar(256) default '000000000000'")
 	private String socialSecurityNumber;
 
 	@Column(name = "phone_number")

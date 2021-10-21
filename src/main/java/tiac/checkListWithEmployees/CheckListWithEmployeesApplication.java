@@ -4,6 +4,7 @@ import org.apache.coyote.http11.AbstractHttp11Protocol;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
@@ -15,6 +16,7 @@ import tiac.checkListWithEmployees.entity.Employee;
 import tiac.checkListWithEmployees.repository.EmployeeRepository;
 import tiac.checkListWithEmployees.repository.RoleRepository;
 
+
 @SpringBootApplication
 public class CheckListWithEmployeesApplication {
 	
@@ -22,6 +24,7 @@ public class CheckListWithEmployeesApplication {
 	EmployeeRepository employeeRepository;
 	@Autowired
 	RoleRepository roleRepository;
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(CheckListWithEmployeesApplication.class, args);
@@ -43,6 +46,7 @@ public class CheckListWithEmployeesApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+	
 
 	@Bean
 	InitializingBean sendDatabase() {
@@ -71,4 +75,5 @@ public class CheckListWithEmployeesApplication {
 			}
 		};
 	}
+	
 }
