@@ -35,7 +35,7 @@ public class JasperReportImpl implements JasperReportService {
 	public String exportReport( Long id) throws JRException, IOException {
 		String path = "C:\\Users\\HP\\Desktop\\Report";
 		List<EmployeeCheckList> employeeCheck = employeeCheckRepo.findAllByEmployeeId(id);
-		System.out.println(employeeCheck.get(0).getDescription());
+		System.out.println(employeeCheck.get(0).getDone());
 		// load file and compile it
 
 		// File file =

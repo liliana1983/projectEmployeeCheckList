@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -23,6 +24,9 @@ public class EmployeeCheckList {
 	
 	@Column(name = "is_checked")
 	private boolean isChecked;
+	
+	@Transient
+	private String done = this.isChecked ? "DONE" : "UNDONE";
 	
 	@Column(name="time_dropdown")
 	private String timeDropDown;
@@ -96,6 +100,14 @@ public class EmployeeCheckList {
 		this.description = description;
 		this.employee = employee;
 		this.checkListTemplate = checkListTemplate;
+	}
+
+	public String getDone() {
+		return done;
+	}
+
+	public void setDone(String done) {
+		this.done = done;
 	}
 
 }
