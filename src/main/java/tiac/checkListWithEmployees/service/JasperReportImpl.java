@@ -1,8 +1,6 @@
 package tiac.checkListWithEmployees.service;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -11,9 +9,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -33,15 +29,9 @@ public class JasperReportImpl implements JasperReportService {
 	private EmployeeCheckListRepository employeeCheckRepo;
 
 	public String exportReport( Long id) throws JRException, IOException {
-		String path = "C:\\Users\\HP\\Desktop\\Report";
 		List<EmployeeCheckList> employeeCheck = employeeCheckRepo.findAllByEmployeeId(id);
 		System.out.println(employeeCheck.get(0).getDone());
-		// load file and compile it
-
-		// File file =
-		// ResourceUtils.getFile("C:\\Users\\HP\\Documents\\workspace-spring-tool-suite-4-4.10.0.RELEASE\\checkListWithEmployees\\src\\main\\resources\\employeeReport.jrxml");
-		// JasperReport jasperReport =
-		// JasperCompileManager.compileReport(file.getPath());
+		
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(employeeCheck);
 		Map<String, Object> params = new HashMap<>();
 		params.put("Ljiljana", dataSource);
@@ -57,13 +47,6 @@ public class JasperReportImpl implements JasperReportService {
 
 		return "employeeReport";
 
-//		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-//		if (reportFormat.equalsIgnoreCase("pdf")) {
-//			JasperExportManager.exportReportToPdfFile(jasperPrint, path + "employeeCheck.pdf");
-//
-//		}
-//		return "report generated in path :" + path;
-//	}
 
 	}
 }

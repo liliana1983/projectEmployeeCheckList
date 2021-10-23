@@ -2,22 +2,17 @@ package tiac.checkListWithEmployees.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import tiac.checkListWithEmployees.Util.Validation;
 import tiac.checkListWithEmployees.entity.CheckListItemTemplate;
 import tiac.checkListWithEmployees.entity.CheckListTemplate;
 import tiac.checkListWithEmployees.entity.Employee;
 import tiac.checkListWithEmployees.entity.EmployeeCheckList;
-import tiac.checkListWithEmployees.entity.TimeFrame;
-import tiac.checkListWithEmployees.entity.DTO.EmployeeCheckListDTO;
 import tiac.checkListWithEmployees.repository.CheckListItemRepository;
 import tiac.checkListWithEmployees.repository.CheckListRepository;
 import tiac.checkListWithEmployees.repository.EmployeeCheckListRepository;
@@ -54,6 +49,7 @@ public class EmployeeCheckListServiceImpl implements EmployeeCheckListService {
 public List<EmployeeCheckList> listEmployee(Long id){
 	return employeeCheckRepo.findAllByEmployeeId(id);
 } 
+
 	@Override
 	public EmployeeCheckList deleteEmployeeCheckList(Long id) {
 		if (employeeCheckRepo.existsById(id)) {
@@ -89,21 +85,6 @@ public List<EmployeeCheckList> listEmployee(Long id){
 
 	}
 
-	@Override
-	public EmployeeCheckList changeEmployeeCheckList(Long id, EmployeeCheckListDTO changedEmployeeCheckList) {
-		if (!employeeCheckRepo.existsById(id)) {
-			return null;
-		}
-		employeeCheckRepo.findById(id).get();
-		EmployeeCheckList updated = employeeCheckRepo.findById(id).get();
-		updated.setDescription(
-				Validation.setIfNotNull(updated.getDescription(), changedEmployeeCheckList.getDescription()));
-		updated.setChecked(Validation.setIfNotNull(updated.isChecked(), changedEmployeeCheckList.isChecked()));
-		updated.setCheckListTemplate(Validation.setIfNotNull(updated.getCheckListTemplate(),
-				changedEmployeeCheckList.getCheckListTemplate()));
-		updated.setEmployee(Validation.setIfNotNull(updated.getEmployee(), changedEmployeeCheckList.getEmployee()));
-		return employeeCheckRepo.save(updated);
-	}
 
 	@Override
 	public EmployeeCheckList findEmployeeCheckList(Long id) {
@@ -115,22 +96,6 @@ public List<EmployeeCheckList> listEmployee(Long id){
 		return null;
 	}
 
-	@Override
-	public EmployeeCheckList connectEmployeeAndCheckListWithEmployeeCheckList(EmployeeCheckListDTO newEmployeeCheckList,
-			Long checkId, Long employeeId) {
-		if (!checkRepo.existsById(checkId))
-			return null;
-		if (!employeeRepo.existsById(employeeId))
-			return null;
-		EmployeeCheckList employeeCheckList = new EmployeeCheckList();
-		employeeCheckList.setDescription(newEmployeeCheckList.getDescription());
-		CheckListTemplate checkList = checkRepo.findById(checkId).get();
-		Employee employee = employeeRepo.findById(employeeId).get();
-		employeeCheckList.setCheckListTemplate(checkList);
-		employeeCheckList.setEmployee(employee);
-		return employeeCheckRepo.save(employeeCheckList);
-
-	}
 
 	@Override
 	public EmployeeCheckList setIfIsChecked(Long employeeCheckId) {
@@ -199,11 +164,15 @@ public List<EmployeeCheckList> listEmployee(Long id){
 	}
 
 	@Override
-	public List<EmployeeCheckList> getTemplateForEmployee(String username, Boolean type) {
-		 employeeCheckRepo.getAllEmployeeTemplates(username,type);
-		 
-		return employeeCheckRepo.getAllEmployeeTemplates(username,type);
+	public List<EmployeeCheckList> getTemplateForEmployee(Boolean type) {
+		Employee employee = employeeService.LoggedInEmployee();
+		String employeeGetUsername = employee.getUsername();
+		List<EmployeeCheckList> template= employeeCheckRepo.getAllEmployeeTemplates(employeeGetUsername, type);
+		return template;
+	}
+
+	
 	}
 
 //6.	Omoguciti povlacenje svih template-a jednog tipa za zaposlenog i upis podataka u EmployeeCheckList tabelu sa default vrednostima
-}
+

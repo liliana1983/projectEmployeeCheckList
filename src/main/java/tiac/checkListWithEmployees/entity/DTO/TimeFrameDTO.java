@@ -6,6 +6,7 @@ import tiac.checkListWithEmployees.entity.CheckListItemTemplate;
 import tiac.checkListWithEmployees.entity.TimeName;
 
 public class TimeFrameDTO {
+	
 	private TimeName name;
 
 	private Set<CheckListItemTemplate> items;

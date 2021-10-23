@@ -30,12 +30,13 @@ public class CheckListItemServiceImpl implements CheckListItemService {
 
 	@Override
 	public CheckListItemTemplate remove(Long id) {
-		if (itemRepo.existsById(id)) {
-			itemRepo.findById(id).get();
-			CheckListItemTemplate item = itemRepo.findById(id).get();
-			itemRepo.delete(item);
-		}
-		return null;
+
+		if (!itemRepo.existsById(id))
+			return null;
+		CheckListItemTemplate item = itemRepo.findById(id).get();
+		itemRepo.delete(item);
+		return item;
+
 	}
 
 	@Override
@@ -61,15 +62,16 @@ public class CheckListItemServiceImpl implements CheckListItemService {
 
 	@Override
 	public CheckListItemTemplate findItem(Long id) {
-		if (itemRepo.existsById(id)) {
-			return itemRepo.findById(id).get();
-		}
-		return null;
+
+		if (!itemRepo.existsById(id))
+			return null;
+		CheckListItemTemplate item = itemRepo.findById(id).get();
+		return item;
 	}
 
 	@Override
 	public CheckListItemTemplate addCheckListAndTime(Long checkId, Long itemId, Long timeId) {
-		if (!itemRepo.existsById(itemId)) 
+		if (!itemRepo.existsById(itemId))
 			return null;
 		if (!checkRepo.existsById(checkId))
 			return null;
@@ -80,8 +82,7 @@ public class CheckListItemServiceImpl implements CheckListItemService {
 		TimeFrame time = timeRepo.findById(timeId).get();
 		item.setCheckList(checkList);
 		item.setTimeDropdown(time);
-		
-	//	checkRepo.save(checkList);
+
 		return itemRepo.save(item);
 
 	}

@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import tiac.checkListWithEmployees.Util.Encryption;
 import tiac.checkListWithEmployees.Util.Validation;
 import tiac.checkListWithEmployees.entity.Employee;
+import tiac.checkListWithEmployees.entity.RoleEntity;
 import tiac.checkListWithEmployees.entity.DTO.EmployeeDTO;
 import tiac.checkListWithEmployees.exception.ResourceNotFoundException;
+import tiac.checkListWithEmployees.repository.CheckListRepository;
 import tiac.checkListWithEmployees.repository.EmployeeRepository;
 import tiac.checkListWithEmployees.repository.RoleRepository;
 
@@ -21,6 +23,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	EmployeeRepository employeeRepo;
 	@Autowired
 	RoleRepository roleRepo;
+	@Autowired
+	CheckListRepository checkRepo;
 
 	@Override
 	public List<Employee> findAllEmployees() {
@@ -30,20 +34,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee createEmployee(EmployeeDTO newEmployee) {
+
+		if (!newEmployee.getPassword().equals(newEmployee.getConfirmPassword()))
+			return null;
 		Employee newE = new Employee();
-		if (newEmployee.getPassword().equals(newEmployee.getConfirmPassword())) {
-			newE.setName(newEmployee.getName());
-			newE.setSurname(newEmployee.getSurname());
-			newE.setUsername(newEmployee.getUsername());
-			newE.setEmail(newEmployee.getEmail());
-			newE.setPassword(Encryption.getPassEncoded(newEmployee.getPassword()));
-			newE.setSocialSecurityNumber(newEmployee.getSocialSecurityNumber());
-			newE.setPhoneNumber(newEmployee.getPhoneNumber());
-			newE.setEducationLevel(newEmployee.getEducationLevel());
-			employeeRepo.save(newE);
-			return newE;
-		}
-		return null;
+		newE.setName(newEmployee.getName());
+		newE.setSurname(newEmployee.getSurname());
+		newE.setUsername(newEmployee.getUsername());
+		newE.setEmail(newEmployee.getEmail());
+		newE.setPassword(Encryption.getPassEncoded(newEmployee.getPassword()));
+		newE.setSocialSecurityNumber(newEmployee.getSocialSecurityNumber());
+		newE.setPhoneNumber(newEmployee.getPhoneNumber());
+		newE.setEducationLevel(newEmployee.getEducationLevel());
+		employeeRepo.save(newE);
+		return newE;
+	}
+
+	@Override
+	public Employee addRoleAndCheckList(Integer roleId, Long employeeId) {
+		RoleEntity role = roleRepo.findById(roleId).get();
+		Employee employee = employeeRepo.findById(employeeId).get();
+		employee.setRole(role);
+		employeeRepo.save(employee);
+
+		return employee;
 	}
 
 	public Employee findByID(Long id) {
@@ -75,7 +89,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee deleteEmployee(Long id) {
 		if (employeeRepo.existsById(id)) {
-			Employee delEmp= employeeRepo.findById(id).get();
+			Employee delEmp = employeeRepo.findById(id).get();
 			employeeRepo.delete(delEmp);
 			return delEmp;
 		}
@@ -84,11 +98,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee LoggedInEmployee() {
-		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getPrincipal().toString();
-		Employee employee= employeeRepo.findByUsername(username);
+		Employee employee = employeeRepo.findByUsername(username);
 		return employee;
 	}
-	
-	
+
 }

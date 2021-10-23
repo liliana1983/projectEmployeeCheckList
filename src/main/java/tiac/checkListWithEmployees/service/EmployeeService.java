@@ -3,7 +3,6 @@ package tiac.checkListWithEmployees.service;
 import java.util.List;
 
 import tiac.checkListWithEmployees.entity.Employee;
-import tiac.checkListWithEmployees.entity.EmployeeCheckList;
 import tiac.checkListWithEmployees.entity.DTO.EmployeeDTO;
 
 public interface EmployeeService {
@@ -19,6 +18,8 @@ public interface EmployeeService {
 	Employee deleteEmployee(Long id);
 	
 	Employee LoggedInEmployee();
+
+	Employee addRoleAndCheckList(Integer roleId, Long employeeId);
 	
 	
 

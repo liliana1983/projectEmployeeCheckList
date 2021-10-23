@@ -4,7 +4,6 @@ import org.apache.coyote.http11.AbstractHttp11Protocol;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
@@ -76,4 +75,6 @@ public class CheckListWithEmployeesApplication {
 		};
 	}
 	
-}
+	    }    
+	
+

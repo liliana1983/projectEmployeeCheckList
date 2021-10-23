@@ -1,9 +1,6 @@
 package tiac.checkListWithEmployees.entity;
-import tiac.checkListWithEmployees.entity.TimeFrame;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,8 +9,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.DynamicInsert;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@DynamicInsert
 @Entity
 @JsonIgnoreProperties({ "handler", "hibernateLazyInitializer" })
 public class EmployeeCheckList {
@@ -22,11 +21,11 @@ public class EmployeeCheckList {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Column(name = "is_checked")
+	@Column(name = "is_checked",columnDefinition = "boolean default false")
 	private boolean isChecked;
 	
 	@Transient
-	private String done = this.isChecked ? "DONE" : "UNDONE";
+	private String done = this.isChecked ? "done" : "not done";
 	
 	@Column(name="time_dropdown")
 	private String timeDropDown;

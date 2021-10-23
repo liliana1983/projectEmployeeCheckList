@@ -1,6 +1,7 @@
 package tiac.checkListWithEmployees.entity.DTO;
 
 import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.NotBlank;
 
 import tiac.checkListWithEmployees.entity.CheckListTemplate;
 import tiac.checkListWithEmployees.entity.Employee;
@@ -9,10 +10,10 @@ public class EmployeeCheckListDTO {
 	@AssertFalse
 private boolean isChecked;
 	
-	
+	@NotBlank(message = "Description must not be blank or null")
 	private String description;
 
-	
+
 	private Employee employee;
 	
 	

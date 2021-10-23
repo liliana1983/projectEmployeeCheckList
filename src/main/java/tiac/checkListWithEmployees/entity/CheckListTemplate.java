@@ -11,9 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+@DynamicInsert
 @Entity
 @JsonIgnoreProperties({ "handler", "hibernateLazyInitializer" })
 public class CheckListTemplate {
@@ -22,10 +24,10 @@ public class CheckListTemplate {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Column
+	@Column(columnDefinition= "boolean default false")
 	private boolean type;
 	
-	@Column
+	@Column(columnDefinition= "varchar(256) default 'check list description to dos'")
 	private String description;
 	@JsonIgnore
 	@OneToMany(mappedBy = "checkList", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)

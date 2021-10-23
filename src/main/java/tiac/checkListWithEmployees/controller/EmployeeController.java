@@ -13,6 +13,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -21,21 +22,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import tiac.checkListWithEmployees.Util.PasswordMatchesValidator;
+import tiac.checkListWithEmployees.Util.RestError;
 import tiac.checkListWithEmployees.Util.UserCustomValidator;
 import tiac.checkListWithEmployees.Util.Validation;
 import tiac.checkListWithEmployees.entity.Employee;
 import tiac.checkListWithEmployees.entity.DTO.EmployeeDTO;
+import tiac.checkListWithEmployees.entity.DTO.EmployeeExitDTO;
 import tiac.checkListWithEmployees.service.EmployeeService;
-
+@CrossOrigin(origins = "${client.url}")
 @RestController
 @RequestMapping(path = "/employee")
 public class EmployeeController {
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
 	@Autowired
 	EmployeeService employeeService;
 
@@ -74,14 +79,12 @@ public class EmployeeController {
 
 	@Secured("ROLE_ADMIN")
 	@PostMapping
-	public ResponseEntity<?> createEmployee(@Valid @RequestBody EmployeeDTO newEmployee, BindingResult result) {
-		if (result.hasErrors()) {
-			return new ResponseEntity<>(Validation.createErrorMessage(result), HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<?> createEmployee(@Valid @RequestBody EmployeeDTO newEmployee) {
+		if(employeeService.createEmployee(newEmployee)==null)
+			return new ResponseEntity<RestError>(new RestError(5,"Password and confirm password must match"), HttpStatus.I_AM_A_TEAPOT);
 		Employee newBe = employeeService.createEmployee(newEmployee);
-		EmployeeDTO employeeResponse = modelMapper.map(newBe, EmployeeDTO.class);
-
-		return new ResponseEntity<EmployeeDTO>(employeeResponse, HttpStatus.OK);
+		EmployeeExitDTO employeeResponse = modelMapper.map(newBe, EmployeeExitDTO.class);
+		return new ResponseEntity<EmployeeExitDTO>(employeeResponse, HttpStatus.OK);
 	}
 
 	@Secured("ROLE_ADMIN")
@@ -91,7 +94,13 @@ public class EmployeeController {
 		EmployeeDTO employeeResponse = modelMapper.map(employee, EmployeeDTO.class);
 		return new ResponseEntity<EmployeeDTO>(employeeResponse, HttpStatus.OK);
 	}
-
+	@Secured("ROLE_ADMIN")
+	@PutMapping(path = "/role/")
+	public ResponseEntity<?> addRole(@RequestParam Long employeeId, @RequestParam Integer roleId) {
+		Employee employee = employeeService.addRoleAndCheckList(roleId, employeeId);
+		EmployeeDTO employeeResponse = modelMapper.map(employee, EmployeeDTO.class);
+		return new ResponseEntity<EmployeeDTO>(employeeResponse, HttpStatus.OK);
+	}
 	@Secured("ROLE_ADMIN")
 	@PutMapping(path = "/{id}")
 	public ResponseEntity<?> changeEmployee(@PathVariable Long id, EmployeeDTO changeEmp) {

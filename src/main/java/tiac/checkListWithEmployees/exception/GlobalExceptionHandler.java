@@ -37,4 +37,8 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<?>objectAlreadyExistsException(ObjectAlreadyExistsException e,ServletWebRequest request){
 		return new ResponseEntity<>(new RestError(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
 	}
+	@ExceptionHandler(NoSuchElementException.class)
+	public ResponseEntity<?> noSuchEelementException(NoSuchElementException e, ServletWebRequest request){
+		return new ResponseEntity<>(new RestError(HttpStatus.NOT_FOUND.value(),e.getMessage()),HttpStatus.NOT_FOUND);
+	}
 }

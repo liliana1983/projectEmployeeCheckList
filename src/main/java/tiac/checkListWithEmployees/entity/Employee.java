@@ -14,10 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
+
+import org.hibernate.annotations.DynamicInsert;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+@DynamicInsert
 @Entity
 @Table(name = "employee", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
 @JsonIgnoreProperties({ "handler", "hibernateLazyInitializer" })
@@ -41,18 +44,20 @@ public class Employee {
 	@Column(name = "soc_sec_number", columnDefinition= "varchar(256) default '000000000000'")
 	private String socialSecurityNumber;
 
-	@Column(name = "phone_number")
+	@Column(name = "phone_number",columnDefinition= "varchar(256) default '0000000000'")
 	private String phoneNumber;
 
-	@Column
+	@Column(columnDefinition= "varchar (256) default 'info@email.com'")
+	@Email
 	private String email;
-	@Column
+	
+	@Column(columnDefinition= "varchar(256) default 'user'")
 	private String username;
-	@Column
-	@JsonIgnore
+	
+	@Column(columnDefinition= "varchar(256) default '12345'")
 	private String password;
 
-	@Column(name = "education_level")
+	@Column(name = "education_level",columnDefinition= "varchar(256) default 'xxx'")
 	private String educationLevel;
 	
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)

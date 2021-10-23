@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import tiac.checkListWithEmployees.entity.CheckListItemTemplate;
 import tiac.checkListWithEmployees.entity.DTO.CheckListItemTemplateDTO;
+import tiac.checkListWithEmployees.exception.NoSuchElementException;
 import tiac.checkListWithEmployees.exception.ResourceNotFoundException;
 import tiac.checkListWithEmployees.service.CheckListItemService;
-
+@CrossOrigin(origins = "${client.url}")
 @RestController
 @RequestMapping(path = "/checkListItem")
 public class checkListItemController {
@@ -51,8 +53,8 @@ public class checkListItemController {
 	@Secured("ROLE_ADMIN")
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<?> getOneItem(@PathVariable Long id) {
-		if (itemService.findItem(id).equals(null)) {
-			throw new ResourceNotFoundException("Item doesnt exists!");
+		if (itemService.findItem(id)==null) {
+			throw new NoSuchElementException("Item doesnt exists!");
 		}
 
 		CheckListItemTemplate item = itemService.findItem(id);
@@ -65,7 +67,7 @@ public class checkListItemController {
 	public ResponseEntity<?> updateCheckListItem(@PathVariable Long id,
 			@RequestBody CheckListItemTemplateDTO changedItem) {
 		if (itemService.findItem(id).equals(null)) {
-			throw new ResourceNotFoundException("Item doesnt exists!");
+			throw new NoSuchElementException("Item doesnt exists!");
 		}
 		CheckListItemTemplate item = itemService.changeItem(id, changedItem);
 		CheckListItemTemplateDTO itemResponse = modelMapper.map(item, CheckListItemTemplateDTO.class);
@@ -76,7 +78,7 @@ public class checkListItemController {
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<?> delCheckItem(@PathVariable Long id) {
 		if (itemService.remove(id).equals(null)) {
-			throw new ResourceNotFoundException("Item doesnt exists or is already deleted!");
+			throw new NoSuchElementException("Item doesnt exists or is already deleted!");
 		}
 		itemService.remove(id);
 		return new ResponseEntity<>(HttpStatus.OK);

@@ -8,8 +8,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import tiac.checkListWithEmployees.Util.UniqueUsername;
 import tiac.checkListWithEmployees.entity.EmployeeCheckList;
 import tiac.checkListWithEmployees.entity.RoleEntity;
@@ -42,14 +40,14 @@ public class EmployeeDTO {
 	@NotEmpty(message = "Username must not be blank or null and should be unique")
 	@Size(min = 5, max = 15, message = "Username length must be between {min} and {max}")
 	private String username;
-//view private
 
-@JsonIgnore
+
+
 	@NotBlank(message = "Password must not be blank or null")
 	@Size(min = 5, max = 15, message = "Password length must be between {min} and {max}")
 	@Pattern(regexp = "[a-zA-Z0-9]*", message = "Password is not valid.")
 	private String password;
-//view private
+
 	
 	@NotBlank(message = "Password must not be blank or null")
 	@Size(min = 5, max = 15, message = "Password length must be between {min} and {max}")
