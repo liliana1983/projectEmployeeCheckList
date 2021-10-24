@@ -2,6 +2,7 @@ package tiac.checkListWithEmployees.entity;
 
 import java.util.Set;
 
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,15 +21,19 @@ import org.hibernate.annotations.DynamicInsert;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Getter
+@Setter
+@NoArgsConstructor
 @DynamicInsert
 @Entity
 @Table(name = "employee", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }) })
 @JsonIgnoreProperties({ "handler", "hibernateLazyInitializer" })
 public class Employee {
 
-	public RoleEntity getRole() {
-		return role;
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -85,87 +90,4 @@ public class Employee {
 		this.employeeCheckLists = employeeCheckLists;
 	}
 
-	public Employee() {
-
-	}
-
-	public Set<EmployeeCheckList> getEmployeeCheckLists() {
-		return employeeCheckLists;
-	}
-
-	public void setEmployeeCheckLists(Set<EmployeeCheckList> employeeCheckLists) {
-		this.employeeCheckLists = employeeCheckLists;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-
-	public String getSocialSecurityNumber() {
-		return socialSecurityNumber;
-	}
-
-	public void setSocialSecurityNumber(String socialSecurityNumber) {
-		this.socialSecurityNumber = socialSecurityNumber;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getEducationLevel() {
-		return educationLevel;
-	}
-
-	public void setEducationLevel(String educationLevel) {
-		this.educationLevel = educationLevel;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public void setRole(RoleEntity role) {
-		this.role = role;
-	}
 }

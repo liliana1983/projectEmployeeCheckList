@@ -15,6 +15,13 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Setter
+@Getter
+@NoArgsConstructor
 @DynamicInsert
 @SQLDelete(sql = "UPDATE check_list_item_template SET active = false WHERE id=?")
 @Where(clause = "active=true")
@@ -39,10 +46,7 @@ public class CheckListItemTemplate {
 	private TimeFrame timeDropdown;
 	
 
-	public CheckListItemTemplate() {
-
-	}
-
+	
 
 	public CheckListItemTemplate(String description, boolean active, CheckListTemplate checkList,
 			TimeFrame timeDropdown) {
@@ -53,43 +57,4 @@ public class CheckListItemTemplate {
 		this.timeDropdown = timeDropdown;
 	}
 
-
-	public String getDescription() {
-		return description;
-	}
-
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
-	public boolean isActive() {
-		return active;
-	}
-
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
-
-	public CheckListTemplate getCheckList() {
-		return checkList;
-	}
-
-
-	public void setCheckList(CheckListTemplate checkList) {
-		this.checkList = checkList;
-	}
-
-
-	public TimeFrame getTimeDropdown() {
-		return timeDropdown;
-	}
-
-
-	public void setTimeDropdown(TimeFrame timeDropdown) {
-		this.timeDropdown = timeDropdown;
-	}
 }

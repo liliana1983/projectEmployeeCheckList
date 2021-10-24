@@ -16,6 +16,12 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @JsonIgnoreProperties({ "handler", "hibernateLazyInitializer" })
 public class TimeFrame {
@@ -38,29 +44,4 @@ public class TimeFrame {
 		this.items = items;
 	}
 
-	public TimeFrame() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-
-	public TimeName getName() {
-		return name;
-	}
-
-	public void setName(TimeName name) {
-		this.name = name;
-	}
-
-	public Set<CheckListItemTemplate> getItems() {
-		return items;
-	}
-
-	public void setItems(Set<CheckListItemTemplate> items) {
-		this.items = items;
-	}
 }

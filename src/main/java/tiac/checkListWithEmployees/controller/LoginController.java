@@ -25,7 +25,7 @@ import tiac.checkListWithEmployees.repository.EmployeeRepository;
 import tiac.checkListWithEmployees.repository.RoleRepository;
 @CrossOrigin(origins = "${client.url}")
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/api/login")
 public class LoginController {
 	@Autowired
 	RoleRepository roleRepo;
@@ -41,7 +41,7 @@ public class LoginController {
 	
 	private String getJWTToken(Employee employee) {
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-				.commaSeparatedStringToAuthorityList(employee.getRole().getRoleName().toString());
+				.commaSeparatedStringToAuthorityList(employee.getRole().getName().toString());
 		String token = Jwts.builder().setId("softtekJWT").setSubject(employee.getUsername())
 				.claim("authorities",
 						grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))

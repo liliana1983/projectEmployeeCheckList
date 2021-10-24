@@ -35,7 +35,7 @@ import tiac.checkListWithEmployees.entity.DTO.EmployeeExitDTO;
 import tiac.checkListWithEmployees.service.EmployeeService;
 @CrossOrigin(origins = "${client.url}")
 @RestController
-@RequestMapping(path = "/employee")
+@RequestMapping(path = "/api/employee")
 public class EmployeeController {
 
 	@Autowired

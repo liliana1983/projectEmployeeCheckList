@@ -31,7 +31,7 @@ import tiac.checkListWithEmployees.service.JasperReportService;
 
 @CrossOrigin(origins = "${client.url}")
 @RestController
-@RequestMapping(path = "/employeeCheckList")
+@RequestMapping(path = "/api/employeeCheckList")
 public class EmployeeCheckListController {
 	@Autowired
 	EmployeeCheckListService employeeCheckService;

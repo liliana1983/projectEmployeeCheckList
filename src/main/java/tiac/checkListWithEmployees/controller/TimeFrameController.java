@@ -24,7 +24,7 @@ import tiac.checkListWithEmployees.exception.ResourceNotFoundException;
 import tiac.checkListWithEmployees.service.TimeFrameService;
 @CrossOrigin(origins = "${client.url}")
 @RestController
-@RequestMapping(path = "/timeFrame")
+@RequestMapping(path = "/api/timeFrame")
 public class TimeFrameController {
 	@Autowired
 	TimeFrameService timeService;

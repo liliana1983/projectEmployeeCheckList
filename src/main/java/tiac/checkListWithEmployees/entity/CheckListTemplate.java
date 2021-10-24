@@ -2,6 +2,7 @@ package tiac.checkListWithEmployees.entity;
 
 import java.util.Set;
 
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,13 @@ import org.hibernate.annotations.DynamicInsert;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Getter
+@Setter
+@NoArgsConstructor
 @DynamicInsert
 @Entity
 @JsonIgnoreProperties({ "handler", "hibernateLazyInitializer" })
@@ -42,44 +50,5 @@ public class CheckListTemplate {
 		this.description = description;
 	}
 
-	public CheckListTemplate() {
-		super();
-	}
 
-	public Set<CheckListItemTemplate> getItems() {
-		return items;
-	}
-
-	public void setItems(Set<CheckListItemTemplate> items) {
-		this.items = items;
-	}
-
-	public Set<EmployeeCheckList> getEmployeeCheckLists() {
-		return employeeCheckLists;
-	}
-
-	public void setEmployeeCheckLists(Set<EmployeeCheckList> employeeCheckLists) {
-		this.employeeCheckLists = employeeCheckLists;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public boolean isType() {
-		return type;
-	}
-
-	public void setType(boolean type) {
-		this.type = type;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
 }

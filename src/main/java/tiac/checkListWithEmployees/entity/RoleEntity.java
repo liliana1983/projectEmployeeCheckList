@@ -17,6 +17,12 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @JsonIgnoreProperties({ "handler", "hibernateLazyInitializer" })
 public class RoleEntity {
@@ -31,9 +37,7 @@ public class RoleEntity {
 	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
 	private List<Employee> employee = new ArrayList<>();
 
-	public RoleEntity() {
-		super();
-	}
+	
 
 	public RoleEntity(Role roleName, List<Employee> employee) {
 		super();
@@ -41,24 +45,5 @@ public class RoleEntity {
 		this.employee = employee;
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public Role getRoleName() {
-		return name;
-	}
-
-	public void setRoleName(Role roleName) {
-		name = roleName;
-	}
-
-	public List<Employee> getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(List<Employee> employee) {
-		this.employee = employee;
-	}
 
 }

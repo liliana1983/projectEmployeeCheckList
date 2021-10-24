@@ -24,7 +24,7 @@ import tiac.checkListWithEmployees.exception.ResourceNotFoundException;
 import tiac.checkListWithEmployees.service.CheckListService;
 @CrossOrigin(origins = "${client.url}")
 @RestController
-@RequestMapping(path = "/checkList")
+@RequestMapping(path = "/api/checkList")
 public class CheckListController {
 	@Autowired
 	CheckListService checkService;
